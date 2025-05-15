@@ -1,97 +1,47 @@
-# 📊 EC2 CPU Alarm Notification via SNS
+# EC2 CPU Utilization Alarm with SNS Notification
 
-This project demonstrates how to set up an Amazon CloudWatch alarm that monitors EC2 instance CPU usage and sends a notification via Amazon SNS when the CPU usage exceeds a specified threshold.
+This project demonstrates how to create a CloudWatch alarm for high CPU utilization on an EC2 instance and notify via Amazon SNS.
 
-## 🎯 Purpose
+## 🛠️ Services Used
 
-- Learn to monitor AWS EC2 instance metrics with CloudWatch
-- Set up an SNS Topic to send alarm notifications via email
-- Understand how to integrate SNS with CloudWatch Alarms
-- Practice basic monitoring and alerting on AWS
+- Amazon EC2
+- Amazon CloudWatch
+- Amazon SNS
 
----
+## 🔧 Project Steps
 
-## 🔧 Services Used
+### 1. Create SNS Topic and Subscription
 
-- **Amazon EC2** – Virtual server for running applications
-- **Amazon CloudWatch** – Monitoring service for AWS resources
-- **Amazon SNS (Simple Notification Service)** – Messaging service for email notification
-- **IAM** – For permission and role settings
+Create a new SNS topic and subscribe with your email to receive alarm notifications.
 
----
+**Screenshots:**
+- ![Create SNS Topic](screenshots/sns-create-topic.png)
+- ![Create SNS Subscription](screenshots/sns-subscription-create.png)
+- ![Confirm Email Subscription](screenshots/sns-alarm-notification-email.png)
 
-## 🛠️ Project Steps
+### 2. Create CloudWatch Alarm
 
-### 1. Create an SNS Topic
-- Go to Amazon SNS → Topics → Create topic
-- Type: `Standard`
-- Name: `ec2-cpu-alarm-notify`
+Select the EC2 instance metric (CPU Utilization) and set the conditions.
 
-![Create SNS Topic](screenshots/sns-create-topic.png)
+**Screenshots:**
+- ![Select Metric](screenshots/cloudwatch-alarm-select-metric.png)
+- ![Define Conditions](screenshots/cloudwatch-alarm-define-conditions.png)
+- ![Select SNS Topic](screenshots/cloudwatch-alarm-select-sns-topic.png)
 
----
+### 3. Simulate High CPU Load
 
-### 2. Subscribe an Email to the SNS Topic
-- Protocol: `Email`
-- Endpoint: your email address
-- Confirm the subscription from your email inbox
+SSH into your EC2 instance and simulate load using the `stress` tool to trigger the alarm.
 
-![Create Subscription](screenshots/sns-subscription-create.png)
+**Screenshot:**
+- ![Stress Test](screenshots/ec2-cpu-stress-test-terminal.png)
 
----
+## 📬 Alarm Notification
 
-### 3. Create CloudWatch Alarm for EC2 CPU Utilization
-- Go to CloudWatch → Alarms → Create Alarm
-- Select metric: `EC2 → Per-Instance Metrics → CPUUtilization`
-- Choose your EC2 instance
+When the threshold is breached, you will receive an email from SNS.
 
-![Select Metric](screenshots/cloudwatch-alarm-select-metric.png)
+**Screenshot:**
+- ![Alarm Notification](screenshots/alarm-mail.png)
 
----
+## ✅ Result
 
-### 4. Define Alarm Conditions
-- Condition: `Static`
-- Whenever CPUUtilization is `Greater than` 70
-- Period: `5 minutes`
-
-![Define Conditions](screenshots/cloudwatch-alarm-define-conditions.png)
-
----
-
-### 5. Connect Alarm to SNS Topic
-- On action step, select the SNS topic you created (`ec2-cpu-alarm-notify`)
-
-![SNS Topic Selection](screenshots/cloudwatch-alarm-select-sns-topic.png)
-
----
-
-### 6. Receive Notification on CPU Threshold Breach
-When the CPU utilization crosses the threshold, an email will be sent like below:
-
-![SNS Notification Email](screenshots/sns-alarm-notification-email.png)
-
----
-
-## 📌 Notes
-
-- CPUUtilization is just one of many metrics; you can use Disk I/O, Network I/O, and others similarly.
-- Make sure your EC2 instance has monitoring enabled and correct IAM permissions.
-
-## 📁 Directory Structure
-```
-project-root/
-│
-├── screenshots/
-│   ├── sns-create-topic.png
-│   ├── sns-subscription-create.png
-│   ├── cloudwatch-alarm-select-metric.png
-│   ├── cloudwatch-alarm-define-conditions.png
-│   ├── cloudwatch-alarm-select-sns-topic.png
-│   └── sns-alarm-notification-email.png
-│
-└── README.md
-```
-
-## ✅ Status
-
-✔️ SNS Notification for EC2 Alarm successfully configured and tested.
+CloudWatch successfully detects the high CPU usage and notifies the subscriber via SNS.
