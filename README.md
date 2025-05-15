@@ -40,7 +40,7 @@ SSH into your EC2 instance and simulate load using the `stress` tool to trigger 
 When the threshold is breached, you will receive an email from SNS.
 
 **Screenshot:**
-- ![Alarm Notification](screenshots/alarm-mail.png)
+- ![Alarm Notification](screenshots/sns-alarm-notification-email.png)
 
 ## ✅ Result
 
